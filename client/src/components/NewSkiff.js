@@ -55,8 +55,8 @@ const NewSkiff = (prop) => {
 
     return (
         <div>
-            <h1 className="title">Add a New Tolman Skiff
-            <div className="add-me"></div> </h1>
+            <h2>Add a New Tolman Skiff
+            <div className="add-me"></div> </h2>
             <form onSubmit={submitForm}>
                 <ol className="form-list">
                 <li> <label htmlFor="buildComplete">Build Complete</label>
@@ -210,7 +210,7 @@ const NewSkiff = (prop) => {
                         } */}
                 </li>
                 <li>
-                    <button type="button" className="myButton secondary" onClick={() => navigate(`/`)}>Cancel my brain</button>
+                    <button type="button" className="myButton secondary" onClick={() => navigate(`/`)}>Cancel</button>
                     <button type="submit" className="myButton">Add My Skiff</button>
                 </li>
                 </ol>

@@ -47,7 +47,7 @@ const EditSkiff = (props) => {
         }, []);
 
         const onSubmitHandler = (e) => {
-            e.preventDefault();
+            //e.preventDefault();
             axios.put('http://localhost:8000/api/skiff/'  + skiffId, {
                 ownerName:ownerName,    
                 builderName:builderName,      
@@ -80,6 +80,7 @@ const EditSkiff = (props) => {
         //onChange to update firstName and lastName
         return (
             <form onSubmit={onSubmitHandler}>
+                <div className="form-list">
                 <h2>Edit Tolman Skiff</h2>
                 <ol className="edit-list" key={props.id}>
                     <li>
@@ -141,7 +142,9 @@ const EditSkiff = (props) => {
                     <button type="submit" className="myButton">Update Skiff</button> 
                     {/* <button typ="button" onClick={() => DeleteSkiff(skiff._id)}>Delete Skiff</button> */}
                 </div>
+                </div>
             </form>
+           
         )
     }
 

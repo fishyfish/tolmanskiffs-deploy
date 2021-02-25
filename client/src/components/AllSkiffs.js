@@ -6,7 +6,7 @@ const AllSkiffs = (prop) => {
     const [allSkiffs, setAllSkiffs] = useState([]);
     useEffect(() => {
         axios
-        .get('http://localhost:8000/api/skiffs')
+        .get('http://localhost:8000/api/skiffs/')
         .then((response) => {
             console.log(response.data);
             setAllSkiffs(response.data);
@@ -31,28 +31,25 @@ const AllSkiffs = (prop) => {
     }
     return (
         <div className="all-tolman-skiffs">
-            <h2>All Tolman Skiffs</h2>
-            <p><button className="myButton" onClick={() => navigate(`/skiffs/new/`)}>
-                            Add a New Tolman Skiff
-                        </button>
-            </p>
+            <header>
+                <h1>All Tolman Skiffs </h1>
+                <button className="myButton" onClick={() => navigate(`/skiffs/new/`)}>
+                    Add a New Tolman Skiff
+                </button>
+            </header>
+           
             <ol className="all-skiffs">
             {
                 allSkiffs.map((skiff, index) =>(
                     <li key={index}>
-                        <img src={ skiff.pictureUrl } alt={ skiff.pictureDescription }/>
+                        <span className="image-wrapper"><img src={ skiff.pictureUrl } alt={ skiff.pictureDescription }/></span>
                         <h4>{ `${skiff.ownerName }'s  ${ skiff.modelName } Skiff`}</h4>
-                        <p>
-                            <button className="myButton" onClick={() => navigate(`/skiff/${skiff._id}`)}>
-                            View Skiff
-                        </button>
-
-                        {/* <a onClick={() => navigate(`/skiff/${skiff._id}`)}>This is a link </a> */}
-                        
-                        <button typ="button" onClick={() => deleteSkiff(skiff._id)}>Delete Skiff</button>
-
-                        <button type="button" className="myButton" onClick={() => navigate(`/skiff/${skiff._id}/edit`)}>Edit Skiff </button>
-                        </p>
+                        <div className="button-wrapper">
+                            <button className="myButton secondary" onClick={() => navigate(`/skiff/${skiff._id}`)}>View Skiff Details</button>
+                            <button type="button" className="myButton" onClick={() => navigate(`/skiff/${skiff._id}/edit`)}>Edit Skiff </button>
+                            <button type="button" className="myButton" 
+                            onClick={() => { if (window.confirm('Are you sure you wish to delete this Skiff?')) deleteSkiff(skiff._id) } } >Delete Skiff</button>
+                        </div>
                     </li>
                 ))
             }
