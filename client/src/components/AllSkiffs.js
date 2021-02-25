@@ -37,12 +37,12 @@ const AllSkiffs = (prop) => {
                     Add a New Tolman Skiff
                 </button>
             </header>
-           
+        
             <ol className="all-skiffs">
             {
                 allSkiffs.map((skiff, index) =>(
                     <li key={index}>
-                        <span className="image-wrapper"><img src={ skiff.pictureUrl } alt={ skiff.pictureDescription }/></span>
+                        <span className="image-wrapper"><img onClick={() => navigate(`/skiff/${skiff._id}`)} src={ skiff.pictureUrl } alt={ skiff.pictureDescription } title={ skiff.pictureDescription }/></span>
                         <h4>{ `${skiff.ownerName }'s  ${ skiff.modelName } Skiff`}</h4>
                         <div className="button-wrapper">
                             <button className="myButton secondary" onClick={() => navigate(`/skiff/${skiff._id}`)}>View Skiff Details</button>

@@ -318,6 +318,7 @@ p {
 .all-skiffs img {
   border:1px solid silver;
   border-radius: 4px;
+  cursor: pointer;
   display: block;
   height: auto;
   margin: 0 auto;
