@@ -419,7 +419,7 @@ p {
 button.myButton:hover,
 .linkButton:hover {
   background:darkred;
-  color: white;
+  color: #fff;
 }
 
 button.myButton:focus,
@@ -427,19 +427,19 @@ button.myButton.active,
 .linkButton:focus,
 .linkButton:active {
   background: darkred;
-  color: white;
+  color: #fff;
   border: 2px solid red;
 } 
 
 .linkButton {
   margin-right:15px;
   text-decoration: none;
-  color: #fff;
+  color: #444;
 }
 
 .myButton.secondary {
   background: white;
-  color: #333;
+  color: #444;
 }
 
 .button-row {
