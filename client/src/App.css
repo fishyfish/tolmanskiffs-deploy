@@ -332,6 +332,7 @@ p {
 
 .skiffpicture {
   max-width: 600px;
+  width:100%;
 }
 
 .skiff-description-list {
@@ -442,6 +443,13 @@ button.myButton.active,
 
 .edit-list li input {
   margin:0;
+}
+
+.truncate {
+  width: 550px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media (prefers-reduced-motion: no-preference) {
