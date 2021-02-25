@@ -17,7 +17,7 @@ function App() {
   };
   return (
     <div className="App">
-      <div id="skiff"></div>
+      {/* <div id="skiff"></div> */}
       <Router> 
         <AllSkiffs path="/"/>
         <NewSkiff path="/skiffs/new" /> 
