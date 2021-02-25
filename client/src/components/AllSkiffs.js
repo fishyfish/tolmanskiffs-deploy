@@ -32,7 +32,7 @@ const AllSkiffs = (prop) => {
     return (
         <div className="all-tolman-skiffs">
             <header>
-                <h1>All Tolman Skiffs </h1>
+                <h1>Tolman Skiff Projects</h1>
                 <button className="myButton" onClick={() => navigate(`/skiffs/new/`)}>
                     Add a New Tolman Skiff
                 </button>
