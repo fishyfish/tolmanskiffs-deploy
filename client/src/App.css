@@ -375,13 +375,33 @@ p {
   text-align: center;
 }
 
+.button-wrapper button.myButton {
+  background-color: white;
+  color: #444;
+  margin:0;
+}
+
+.button-wrapper button:nth-child(1) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: 0;
+}
+.button-wrapper button:nth-child(2) {
+  border-radius: 0;
+  border-right: 0;
+}
+.button-wrapper button:nth-child(3) {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
 
 .myButton,
 .linkButton {
-  background: red;
+  background: white;
   border:1px solid lightgray;
   border-radius: 4px;
-  color: white;
+  color: #444;
   cursor:pointer;
   font-size: 12px;
   font-weight: bold;
@@ -446,7 +466,7 @@ button.myButton.active,
 }
 
 .truncate {
-  width: 550px;
+  width: 325px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
