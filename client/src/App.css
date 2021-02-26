@@ -480,6 +480,11 @@ button.myButton.active,
   text-overflow: ellipsis;
 }
 
+.debug {
+  border: 1px dashed red;
+  color: red;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
