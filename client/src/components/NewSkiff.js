@@ -3,8 +3,12 @@ import axios from 'axios';
 import {link, navigate} from '@reach/router';
 import { ESRCH } from 'constants';
 // import { set } from 'mongoose';
+import io from 'socket.io-client';
 
 const NewSkiff = (prop) => {
+    const [socket, setSocket] = useState(() => io(":8000"));
+    const [socketMessage, setSocketMessage] = useState('connecting to server');
+
     const [ buildComplete, setBuildComplete] = useState(true);
     const [ ownerName, setOwnerName ] = useState('');
     const [ builderName, setBuilderName] = useState('');
@@ -45,6 +49,7 @@ const NewSkiff = (prop) => {
                 setErrs(response.data.errors);
             } else {
             console.log(response.data);
+            socket.emit("added_skiff", response.data);
             navigate(`/skiff/${response.data._id}`);
             }
         })
@@ -56,6 +61,7 @@ const NewSkiff = (prop) => {
     return (
         <div>
             <h2>Add a New Tolman Skiff
+            <h3>{socketMessage}</h3>
             <div className="add-me"></div> </h2>
             <form onSubmit={submitForm}>
                 <ol className="form-list">

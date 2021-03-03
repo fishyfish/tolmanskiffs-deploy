@@ -5,7 +5,7 @@ module.exports = {
         TolmanSkiff.find()
         .sort({ ownerName: "ascending"})
         .then((allSkiffs) =>{
-            console.log(allSkiffs);
+            //console.log(allSkiffs);
             res.json(allSkiffs);
         })
         .catch((err) =>{

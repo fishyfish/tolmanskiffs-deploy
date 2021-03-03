@@ -1,9 +1,29 @@
 import React, {useEffect, useState } from 'react';
 import axios from 'axios';
 import {link, navigate} from '@reach/router';
+// import { isValidObjectId } from 'mongoose';
+import io from 'socket.io-client';
 
 const AllSkiffs = (prop) => {
+    const [socket ] = useState(() => io(":8000"));
+    const [socketMessage, setSocketMessage] = useState('connecting to server');
     const [allSkiffs, setAllSkiffs] = useState([]);
+    const [skiffCount, setSkiffCount] = useState(0);
+
+    useEffect(() => {
+        console.log('socket use effect method');
+        socket.on('new_added_skiff', (data) => {
+            console.log("new added skiff");
+            console.log(data);
+            console.log("all skiffs");
+            console.log(allSkiffs);
+            setSocketMessage(`${data.ownerName} ${data.modelName} `);
+            // setSocketMessage(`check out new skiff`);
+            setAllSkiffs([data, ...allSkiffs]);
+        })
+        return () => socket.disconnect(true);
+    }, [skiffCount]);
+
     useEffect(() => {
         axios
         .get('http://localhost:8000/api/skiffs/')
@@ -37,7 +57,7 @@ const AllSkiffs = (prop) => {
                     Add a New Tolman Skiff
                 </button>
             </header>
-        
+            <h3>{socketMessage}</h3>
             <ol className="all-skiffs">
             {
                 allSkiffs.map((skiff, index) =>(
