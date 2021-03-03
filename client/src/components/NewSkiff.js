@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 
 const NewSkiff = (prop) => {
     const [socket, setSocket] = useState(() => io(":8000"));
-    const [socketMessage, setSocketMessage] = useState('connecting to server');
+    const [socketMessage, setSocketMessage] = useState('connecting to server{}');
 
     const [ buildComplete, setBuildComplete] = useState(true);
     const [ ownerName, setOwnerName ] = useState('');

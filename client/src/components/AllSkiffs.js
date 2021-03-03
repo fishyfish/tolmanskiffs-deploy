@@ -67,7 +67,7 @@ const AllSkiffs = (prop) => {
                         <div className="button-wrapper">
                             <button className="myButton secondary" onClick={() => navigate(`/skiff/${skiff._id}`)}>View Skiff Details</button>
                             <button type="button" className="myButton" onClick={() => navigate(`/skiff/${skiff._id}/edit`)}>Edit Skiff </button>
-                            <button type="button" className="myButton" 
+                            <button type="button"s className="myButton" 
                             onClick={() => { if (window.confirm('Are you sure you wish to delete this Skiff?')) deleteSkiff(skiff._id) } } >Delete Skiff</button>
                         </div>
                     </li>
