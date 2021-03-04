@@ -23,13 +23,29 @@ const io = socket(server, {
         allowedHeaders: ['*'],
         credentials: true,
     }
-    });
+});
+
 io.on("connection", (socket) => {
     console.log('on the server side - socket id: ' + socket.id);
-    
+
+    // send a message to ONLY the client that just connected
+    socket.emit('your_socket_id', socket.id);  
+
     socket.on("added_skiff", (data) => {
-        console.log("new skiff added");
+        console.log("New Skiff Added:");
         console.log(data);
+        // send a message to ALL clients EXCEPT for the one that added the skiff
         socket.broadcast.emit("new_added_skiff", data);
+    });
+
+    socket.on("deleted_skiff", (data) => {
+        console.log("skiff was deleted");
+        console.log(data);
+        socket.broadcast.emit("remove_skiff", data);
+    })
+
+    socket.on("disconnect", (data) => {
+        // print to the console that a client disconnected
+        console.log(`socket disconnected...did you mean to? ${socket.id}`);
     })
 })

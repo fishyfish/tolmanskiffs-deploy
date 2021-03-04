@@ -6,8 +6,8 @@ import { ESRCH } from 'constants';
 import io from 'socket.io-client';
 
 const NewSkiff = (prop) => {
-    const [socket, setSocket] = useState(() => io(":8000"));
-    const [socketMessage, setSocketMessage] = useState('connecting to server{}');
+    // the setter is never used and so we will exclude it to avoid lint warnings
+    const [ socket ] = useState(() => io(":8000"));
 
     const [ buildComplete, setBuildComplete] = useState(true);
     const [ ownerName, setOwnerName ] = useState('');
@@ -48,9 +48,16 @@ const NewSkiff = (prop) => {
                 console.log(response.data.errors);
                 setErrs(response.data.errors);
             } else {
-            console.log(response.data);
-            socket.emit("added_skiff", response.data);
-            navigate(`/skiff/${response.data._id}`);
+                console.log(response.data);
+
+                // notify all of the clients that a new skiff was added
+                socket.emit("added_skiff", response.data);
+
+                // before leaving this component we need to be sure to disconnect our socket
+                //      to prevent a resource leak
+                socket.disconnect();
+
+                navigate(`/skiff/${response.data._id}`);
             }
         })
         .catch((err) => {
@@ -61,7 +68,6 @@ const NewSkiff = (prop) => {
     return (
         <div>
             <h2>Add a New Tolman Skiff
-            <h3>{socketMessage}</h3>
             <div className="add-me"></div> </h2>
             <form onSubmit={submitForm}>
                 <ol className="form-list">

@@ -1,28 +1,15 @@
 import React, {useEffect, useState } from 'react';
 import axios from 'axios';
 import {link, navigate} from '@reach/router';
-// import { isValidObjectId } from 'mongoose';
 import io from 'socket.io-client';
 
 const AllSkiffs = (prop) => {
-    const [socket ] = useState(() => io(":8000"));
-    const [socketMessage, setSocketMessage] = useState('connecting to server');
-    const [allSkiffs, setAllSkiffs] = useState([]);
-    const [skiffCount, setSkiffCount] = useState(0);
+    const [ socket ] = useState(() => io(":8000"));
+    const [ socketMessage, setSocketMessage ] = useState("connecting to server");
+    const [ socketId, setSocketId ] = useState();
 
-    useEffect(() => {
-        console.log('socket use effect method');
-        socket.on('new_added_skiff', (data) => {
-            console.log("new added skiff");
-            console.log(data);
-            console.log("all skiffs");
-            console.log(allSkiffs);
-            setSocketMessage(`${data.ownerName} ${data.modelName} `);
-            // setSocketMessage(`check out new skiff`);
-            setAllSkiffs([data, ...allSkiffs]);
-        })
-        return () => socket.disconnect(true);
-    }, [skiffCount]);
+    const [ allSkiffs, setAllSkiffs ] = useState([]);
+    const [ skiffCount, setSkiffCount ] = useState(0);
 
     useEffect(() => {
         axios
@@ -30,12 +17,78 @@ const AllSkiffs = (prop) => {
         .then((response) => {
             console.log(response.data);
             setAllSkiffs(response.data);
+            setSkiffCount(response.data.length);
         })
         .catch((err) => {
             console.log(err);
         });
     }, []);
 
+    useEffect(() => {
+        console.log("socket in use effect method");
+        console.log(socket);
+        console.log(allSkiffs);  // empty
+
+        // This event is fired by the socket instance upon connection and reconnection
+        socket.on("connect", () => {
+            console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+            setSocketId(socket.id);
+        });
+
+        // This event is fired upon disconnection
+        socket.on("disconnect", (reason) => {
+            console.log("socket disconnected: " + socket.id); // expect it to be undefined
+            setSocketId(socket.id); // reset state to ensure we can see it on the page
+
+            // disconnect reasons -->  https://socket.io/docs/v3/client-socket-instance/#Events
+            if (reason === "io server disconnect") {
+                // the disconnection was initiated by the server, you need to reconnect manually
+                socket.connect();
+            }
+            // else the socket will automatically try to reconnect
+        });
+
+        socket.io.on("reconnection_attempt", () => {
+            console.log(`reconnect attempt for ${socket.id}`); // undefined
+        });
+
+        socket.io.on("reconnect", () => {
+            console.log(`reconnect success for ${socket.id}`); // undefined
+        });
+
+        socket.on('your_socket_id', (data) => {
+            console.log(`The server told us that our socket id is: ${data}`);
+        });
+
+        socket.on("new_added_skiff", (data) => {
+            console.log("new added skiff");
+            console.log(data);
+
+            // the current state that this listener knows about was created when this component
+            //      was rendered and so you MUST not rely on this!
+            // to add the new object to the "current" state displayed on the page, you will
+            //      need to use a callback function
+            console.log("all skiffs");
+            console.log(allSkiffs);
+
+            // https://reactjs.org/docs/hooks-reference.html#functional-updates
+            //      If the new state is computed using the previous state, you can pass a function to setState. 
+            //      The function will receive the previous value, and return an updated value
+            setAllSkiffs((prevList) => [ data, ...prevList ]);
+
+            setSocketMessage(`Check out ${data.ownerName}'s new ${data.modelName} skiff!`);
+        });
+
+        socket.on("remove_skiff", (data) => {
+            console.log("someone removed a skiff...sorry!")
+            console.log(data);
+            setSocketMessage("Sorry to say that a skiff has been removed  :(");
+            setAllSkiffs(data);
+            setSkiffCount(data.length);
+        })
+
+        return () => socket.disconnect();
+    }, []);
 
     const deleteSkiff = (skiffId) => {
         axios.delete("http://localhost:8000/api/skiff/" + skiffId)
@@ -44,6 +97,10 @@ const AllSkiffs = (prop) => {
             console.log(deletedSkiff);
             const filteredSkiffsArray = allSkiffs.filter((skiff) => skiff._id !== skiffId);
             setAllSkiffs(filteredSkiffsArray);
+            // after we know it was removed from the back end, inform all other clients that
+            //      this skiff was removed
+            // sending the full array this time to demonstrate replacing state completely
+            socket.emit("deleted_skiff", filteredSkiffsArray);
         })
         .catch ((err) => {
             console.log(err);
@@ -57,7 +114,7 @@ const AllSkiffs = (prop) => {
                     Add a New Tolman Skiff
                 </button>
             </header>
-            <h3>{socketMessage}</h3>
+        
             <ol className="all-skiffs">
             {
                 allSkiffs.map((skiff, index) =>(
@@ -67,14 +124,20 @@ const AllSkiffs = (prop) => {
                         <div className="button-wrapper">
                             <button className="myButton secondary" onClick={() => navigate(`/skiff/${skiff._id}`)}>View Skiff Details</button>
                             <button type="button" className="myButton" onClick={() => navigate(`/skiff/${skiff._id}/edit`)}>Edit Skiff </button>
-                            <button type="button"s className="myButton" 
+                            <button type="button" className="myButton" 
                             onClick={() => { if (window.confirm('Are you sure you wish to delete this Skiff?')) deleteSkiff(skiff._id) } } >Delete Skiff</button>
                         </div>
                     </li>
                 ))
             }
             </ol>
+            <ul className="socket-message">
+                <li>Socket ID: {socketId}</li>  
+                <li>Skiff Count: {skiffCount}</li>
+                <li>{ socketMessage }...</li>
+            </ul>
         </div>
+        
     )
 }
 
