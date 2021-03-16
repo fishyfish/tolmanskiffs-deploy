@@ -2,8 +2,10 @@ import React, {useEffect, useState } from 'react';
 import axios from 'axios';
 import {link, navigate} from '@reach/router';
 import { setServers } from 'dns';
+import io from 'socket.io-client';
 
 const EditSkiff = (props) => {
+        const [ socket ] = useState(() => io(":8000"));
         const {skiffId} = props;
         const [skiff, setSkiff] = useState("");
         const [loaded, setLoaded] = useState([]);
@@ -41,7 +43,6 @@ const EditSkiff = (props) => {
                     setPictureUrl(mySkiff.pictureUrl);
                     setPictureDescription(mySkiff.pictureDescription);
                     setDescription(mySkiff.description);
-
                 })
                 .catch(err=>console.log('something is errored out' + err))
         }, []);
@@ -60,18 +61,20 @@ const EditSkiff = (props) => {
                 pictureUrl:pictureUrl,
                 pictureDescription:pictureDescription,
                 description:description,   
-            })   
+            }, { withCredentials: true })  
             .then((res) => {
                 if(res.data.errors){
                     console.log(res.data.errors)
                     setServers(res.data.errors)
                 } else {
                     console.log(res.data);
-                    navigate(`/skiff/${res.data._id}`);
+                    // notify all of the clients that a new skiff was added
+                    socket.emit("edited_skiff", res.data);
+                    // before leaving this component we need to be sure to disconnect our socket
+                    //      to prevent a resource leak
+                    socket.disconnect();
+                    navigate(`/skiff/${res.data._id}`);   
                 }
-                // console.log(res.data);
-                // setSkiff(res.data);
-                // /navigate(`/skiff/${props.id}`);
             })
                 
             .catch(err=>console.log(err))
@@ -82,7 +85,7 @@ const EditSkiff = (props) => {
             <form onSubmit={onSubmitHandler}>
                 <div className="form-list">
                 <h2>Edit Tolman Skiff</h2>
-                <ol className="edit-list" key={props.id}>
+                <ol className="form-list" key={props.id}>
                     <li>
                         <label>Owner Name</label>
                         <input type="text" defaultValue={skiff.ownerName} onChange = {(e)=>setOwnerName(e.target.value)}/>
@@ -135,12 +138,12 @@ const EditSkiff = (props) => {
                         </textarea>
                     </li>
                 </ol>
-                <div className="button-row">
+                <br />
+                <div className="button-wrapper right">
+                     <button type="submit" className="myButton">Update Skiff</button> 
                     <button type="button" className="myButton secondary"  onClick={() => navigate(`/`)}>
                         Back to All Skiffs
                     </button>
-                    <button type="submit" className="myButton">Update Skiff</button> 
-                    {/* <button typ="button" onClick={() => DeleteSkiff(skiff._id)}>Delete Skiff</button> */}
                 </div>
                 </div>
             </form>

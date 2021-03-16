@@ -1,20 +1,31 @@
+require ("dotenv").config();
+
 const express = require('express');
 const app = express();
-const cors = require('cors');
-const port =8000;
+const cors = require("cors");
+const cookieParser = require('cookie-parser');
+
 const socket = require('socket.io');
+const port = 8000;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+}));
+app.use(cookieParser());
 
-require('./config/mongoose.config');
+//require('./config/mongoose.config');
+require('./config/mongoose.config')(process.env.DB_NAME);
 
 require('./routes/skiffs.route')(app);
+require('./routes/user.routes')(app);
 
-const server = app.listen(port, () => {
-    console.log(`Listening on port: ${port}`)
-});
+// this is showing undefined.
+//app.listen(process.env.DB_PORT, () => console.log(`Trying to listen on port: ${process.env.DB_PORT} which is the Process Env DB_Port`));
+
+const server = app.listen(process.env.DB_PORT, () => {console.log(`Listening on port: ${port} which should be :8000`)});
 
 const io = socket(server, {
     cors: {
@@ -38,6 +49,13 @@ io.on("connection", (socket) => {
         socket.broadcast.emit("new_added_skiff", data);
     });
 
+    socket.on("edited_skiff", (data) => {
+        console.log("Skiff Edited:");
+        console.log(data);
+        // send a message to ALL clients EXCEPT for the one that edited the skiff
+        socket.broadcast.emit("edited_skiff", data);
+    });
+
     socket.on("deleted_skiff", (data) => {
         console.log("skiff was deleted");
         console.log(data);
@@ -49,3 +67,4 @@ io.on("connection", (socket) => {
         console.log(`socket disconnected...did you mean to? ${socket.id}`);
     })
 })
+

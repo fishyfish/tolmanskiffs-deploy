@@ -26,7 +26,8 @@ const NewSkiff = (prop) => {
         e.preventDefault();
         // do something with axios
         console.log('submitting form');
-        const newSkiff = {
+        // const newSkiff = {
+            axios.post('http://localhost:8000/api/skiffs',{
             buildComplete: buildComplete,
             ownerName: ownerName,
             builderName: builderName,
@@ -37,18 +38,15 @@ const NewSkiff = (prop) => {
             customLength:customLength,
             pictureUrl: pictureUrl,
             pictureDescription: pictureDescription,
-            description:description
-        };
-        console.log(newSkiff);
-        axios.post('http://localhost:8000/api/skiffs',
-            newSkiff
-        )
+            description:description,
+        }, { withCredentials: true })
         .then((response) =>{
             if (response.data.errors){
                 console.log(response.data.errors);
                 setErrs(response.data.errors);
+                console.log(response.data + "this should have created a new skiff?");
             } else {
-                console.log(response.data);
+                console.log(response.data + "is this creating new skiff?");
 
                 // notify all of the clients that a new skiff was added
                 socket.emit("added_skiff", response.data);

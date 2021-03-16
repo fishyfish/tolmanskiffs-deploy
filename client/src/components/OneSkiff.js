@@ -15,10 +15,10 @@ const OneSkiff = (props) => {
             .catch(err=>console.log('something is errored out' + err))
     },[])
     return (
-        <div className="form-wrapper">
+        <div className="form-list">
                 <h2>{skiff.ownerName}'s Tolman Skiff</h2>
-                <ol className="skiff-description-list">
-                    <li className="newLine"><img className="skiffpicture" src={skiff.pictureUrl} /></li>
+                <ol className="item-description-list">
+                    <li className="newLine"><img className="item-image" src={skiff.pictureUrl} /></li>
                     <li className="newLine"><em>Owner Name:</em> {skiff.ownerName}</li> 
                     <li className="newLine"><em>Builder Name:</em> {skiff.builderName}</li> 
                     <li className="newLine"><em>Model Name:</em> {skiff.modelName}</li>

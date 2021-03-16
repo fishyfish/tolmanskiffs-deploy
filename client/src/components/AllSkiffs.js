@@ -90,8 +90,15 @@ const AllSkiffs = (prop) => {
         return () => socket.disconnect();
     }, []);
 
+    // skiff or skiffs in axios delete?
     const deleteSkiff = (skiffId) => {
-        axios.delete("http://localhost:8000/api/skiff/" + skiffId)
+        axios.delete("http://localhost:8000/api/skiff/" + skiffId,
+        {
+            // this will force the sending of the credentials / cookies so they can be updated
+            // XMLHttpRequest from a different domain cannot set cooke values for their own domain
+            // unless withCredentials is set to true before making the request.
+            withCredentials: true
+        })
         .then ((res) => {
             const deletedSkiff = res.data;
             console.log(deletedSkiff);
@@ -107,15 +114,17 @@ const AllSkiffs = (prop) => {
         });
     }
     return (
-        <div className="all-tolman-skiffs">
-            <header>
-                <h1>Tolman Skiff Projects</h1>
-                <button className="myButton" onClick={() => navigate(`/skiffs/new/`)}>
-                    Add a New Tolman Skiff
-                </button>
-            </header>
+        <div className="all-items-wrapper">
+            <div className="header">
+                {/* <h1>Tolman Skiff Projects</h1> */}
+                <h2>Tolman Skiff Collection</h2>
+                <p>Tolman skiffs are dory-style skiffs with semi-vee bottoms made of plywood/epoxy/fiberglass (sometimes called stitch-and-glue or composite construction). Renn Tolman, the designer of the Tolman Skiff, has built over sixty since 1986 for sport and commercial use, and many others have been built by amateurs and professionals in the US, Australia, Canada, New Zealand, Europe, and elsewhere. Renn Tolman passed away in Homer, AK - July 12th, 2014. Amateur builders continue Renn's legacy and are actively building their own Tolman Skiffs.</p>
+                <p>Please register, login, and add your own Tolman Skiff to the collection.</p>
+
+{/* Renn Tolman designed three models for his book, "Building Plans for Three Plywood / Epoxy Skiffs", the "Standard," the "Widebody," and the "Jumbo." The Standard and the Widebody are identical in profile, but the Widebody has a 3-inch "chine flat" between the sides and bottom, like most fiberglass boats (ten million fiberglass boats can't be wrong). The Jumbo is a larger skiff in every dimension, has a 4-inch chine flat, and has a deeper vee bottom. The Jumbo is designed specifically to use the new four-stroke 115 to 150 horsepower engines. */}
+            </div>
         
-            <ol className="all-skiffs">
+            <ol className="all-items">
             {
                 allSkiffs.map((skiff, index) =>(
                     <li key={index}>

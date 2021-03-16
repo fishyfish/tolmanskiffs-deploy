@@ -12,6 +12,17 @@ const TolmanSkiffSchema = new mongoose.Schema({
         required: [true, "You must have a builder name"],
         minlength: [3, "Your builder name must be at least 3 characters long"],
     },
+    // email: {
+    //     type: String,
+    //     required: [true, "Email is required"],
+    //     validator: val => /^([\w-\.]+@([\w-]+\.)+[\w-]+)?$/.test(val),
+    // },
+    // password: {
+    //     type: String,
+    //     required: [true, "Password is required"],
+    //     minlength: [8, "Password must be 8 characters or longer"]
+    // },
+    // this stuff above does not belong here ding bat.
     modelName: { 
         type: String,
         required: [true, "You must have a model name"],
@@ -51,9 +62,12 @@ const TolmanSkiffSchema = new mongoose.Schema({
     },
     description:{
         type:String,
+    },
+    userId: {
+        type:String,
     }
 
 }, {timestamps: true}) 
 
 // THIS: collection names are all lowercase and plural based on this string "Skiff"
-module.exports = mongoose.model('Skiff', TolmanSkiffSchema);
+module.exports = mongoose.model('Skiffs', TolmanSkiffSchema);
