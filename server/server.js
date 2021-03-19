@@ -31,10 +31,10 @@ const server = app.listen(process.env.DB_PORT, () => {console.log(`Listening on 
 // server-side
 const io = require("socket.io")(server, {
     cors: {
-      origin: "http://localhost:3000",
+      origin: "*",
       methods: ["GET", "POST"],
       allowedHeaders: ["*"],
-      credentials: true
+      credentials: true,
     }
   });
 
