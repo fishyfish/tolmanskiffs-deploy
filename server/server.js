@@ -5,6 +5,7 @@ const app = express();
 const cors = require("cors");
 const cookieParser = require('cookie-parser');
 
+//const socket = io.connect("http://18.189.26.197:8000", { secure: false, reconnection: true, rejectUnauthorized: false });
 const socket = require('socket.io');
 const port = 8000;
 
@@ -27,7 +28,7 @@ require('./routes/user.routes')(app);
 
 const server = app.listen(process.env.DB_PORT, () => {console.log(`Listening on port: ${port} which should be :8000`)});
 
-const io = socket(server, {
+const io = require("socket.io")(server, {
     cors: {
         origin: 'http://localhost:3000',
         methods: ['GET', 'POST'],
@@ -35,6 +36,17 @@ const io = socket(server, {
         credentials: true,
     }
 });
+
+// const io = require("socket.io")(server, {
+//     cors: {
+//       origin: "http://localhost:8000",
+//       methods: ["GET", "POST"],
+//       allowedHeaders: ['*'],
+//       credentials: true,
+//     }
+//   });
+  
+  //server.listen(3000);
 
 io.on("connection", (socket) => {
     console.log('on the server side - socket id: ' + socket.id);
