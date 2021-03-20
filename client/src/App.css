@@ -382,7 +382,7 @@ button.myButton.active,
 .linkButton:active {
   background: darkred;
   color: #fff;
-  border: 2px solid red;
+  /* border: 2px solid red; */
 } 
 
 .linkButton {
@@ -468,6 +468,12 @@ header .button-wrapper {
   border-bottom-right-radius: 4px;
 }
 
+.button-wrapper button.myButton:hover,
+.button-wrapper button.myButton:active {
+  background-color: darkred;
+  color: white;
+}
+
 .button-row {
   margin: 15px;
 }
@@ -502,3 +508,22 @@ header .button-wrapper {
     transform: rotate(360deg);
   }
 }
+
+@media only screen and (max-width: 800px) {
+  .App {
+    background: rgba(255,255,255,1.0);
+    box-shadow: 0;
+    border-radius: 0; 
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  header .button-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-basis: 40%;
+    flex: 1 1;
+    margin: 15px auto;
+    padding: 0;
+    text-align: right;
+}
+} 
