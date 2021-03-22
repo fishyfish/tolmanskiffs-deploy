@@ -5,6 +5,7 @@ import RegisterUser from "../components/RegisterUser";
 import Register from "../components/RegisterUser";
 
 const LogReg = () => {
+
     return (
         <div className="page-wrapper">
             <Login />

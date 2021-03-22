@@ -110,7 +110,7 @@ const EditSkiff = (props) => {
                     </li>
                     <li>
                         {/* make this true / false radio buttons */}
-                        <label>Build Complete</label>
+                        <label>Build Complete (true or false):</label>
                         {/* <input type="radio" value="yes" name="buildComplete" />
                         <input type="radio" value="no" name="buildComplete" /> */}
                         <input type="text" defaultValue={skiff.buildComplete} onChange = {(e)=>setBuildComplete(e.target.value)}/>

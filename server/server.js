@@ -5,15 +5,14 @@ const app = express();
 const cors = require("cors");
 const cookieParser = require('cookie-parser');
 
-//const socket = io.connect("http://18.189.26.197:8000", { secure: false, reconnection: true, rejectUnauthorized: false });
-//const socket = require('socket.io');
+const socket = require('socket.io');
 const port = 8000;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cors({
     credentials: true,
-    origin: "*",
+    origin: "http://localhost:3000",
 }));
 app.use(cookieParser());
 
@@ -28,15 +27,14 @@ require('./routes/user.routes')(app);
 
 const server = app.listen(process.env.DB_PORT, () => {console.log(`Listening on port: ${port} which should be :8000`)});
 
-// server-side
-const io = require("socket.io")(server, {
+const io = socket(server, {
     cors: {
-      origin: "*",
-      methods: ["GET", "POST"],
-      allowedHeaders: ["*"],
-      credentials: true,
+        origin: 'http://localhost:3000',
+        methods: ['GET', 'POST'],
+        allowedHeaders: ['*'],
+        credentials: true,
     }
-  });
+});
 
 io.on("connection", (socket) => {
     console.log('on the server side - socket id: ' + socket.id);

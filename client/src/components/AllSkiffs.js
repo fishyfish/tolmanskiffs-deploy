@@ -11,6 +11,11 @@ const AllSkiffs = (prop) => {
     const [ allSkiffs, setAllSkiffs ] = useState([]);
     const [ skiffCount, setSkiffCount ] = useState(0);
 
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [lastName, setLastName] = useState("");
+
     useEffect(() => {
         axios
         .get('http://localhost:8000/api/skiffs/')
@@ -143,6 +148,7 @@ const AllSkiffs = (prop) => {
             <ul className="socket-message">
                 <li>Socket ID: {socketId}</li>  
                 <li>Skiff Count: {skiffCount}</li>
+                {/* <li>Welcome, {email}</li> */}
                 <li>{ socketMessage }...</li>
             </ul>
         </div>

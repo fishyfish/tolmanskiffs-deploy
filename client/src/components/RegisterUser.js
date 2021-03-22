@@ -34,7 +34,7 @@ const Register = props => {
                 setPassword("");
                 setConfirmPassword("");
                 setErrs({});
-                setConfirmReg("thank yor for Registering, you can now log in!");
+                setConfirmReg("Thank you for Registering, you can now log in!");
             })
             .catch((err) => {
                 console.log(err);
@@ -45,7 +45,7 @@ const Register = props => {
         <div>
             <h2>Register</h2>
             {
-                confirmReg ? <h4 style={{color: "green"}}>{confirmReg}</h4> : null
+                confirmReg ? <h4 style={{color: "green"}}>{confirmReg} </h4> : null
             }
             <form onSubmit={register}>
                 <div>

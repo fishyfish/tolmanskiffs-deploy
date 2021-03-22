@@ -1,6 +1,7 @@
 import './App.css';
 import React from 'react';
 import { Router } from '@reach/router';
+import axios from "axios";
 //import Main from './views/Main';
 //import SkiffForm from './components/SkiffForm';
 import NewSkiff from './components/NewSkiff';
@@ -12,6 +13,14 @@ import Header from './views/Header';
 import LogReg from './views/LogReg';
 
 function App() {
+  
+    //const decodedJWT = jwt.decode(req.cookies.usertoken, {complete: true});
+
+    // User.findById(decodedJWT.payload._id)
+    //     .then(user => res.json(user))
+    //     .catch(err => res.json(err));
+
+
   const NotFound = () => {
     return (
       <div className="error"> Route Not Found</div>

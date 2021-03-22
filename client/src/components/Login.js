@@ -6,8 +6,7 @@ const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const [lastName, setLastName] = useState("");
-
+    
     const login = event => {
         event.preventDefault();
         axios.post("http://localhost:8000/api/user/login", {
@@ -50,6 +49,9 @@ const Login = (props) => {
                 <button className="myButton solo" type="submit">Sign In</button>
                 
             </div>
+                 {/* {
+                   getLoggedInUser  ? <span>{userName}</span> : null
+                    }  */}
             </form>
         </div>
     );

@@ -24,7 +24,11 @@ const OneSkiff = (props) => {
                     <li className="newLine"><em>Model Name:</em> {skiff.modelName}</li>
                     <li className="newLine"><em>Start Date:</em> {skiff.startDate}</li>
                     <li className="newLine"><em>Finish Date:</em> {skiff.finishDate}</li>
-                    <li className="newLine"><em>Build Complete:</em> {skiff.buildComplete}</li>
+                    <li className="newLine"><em>Build Complete:</em> 
+                    
+                        {skiff.buildComplete ? " Yes! On the water. " : " No, it's complicated."}
+
+                    </li>
                     <li className="newLine"><em>Stock Length:</em> {skiff.stockLength}</li>
                     <li className="newLine"><em>Custom Length:</em> {skiff.customLength}</li>
                     <li className="newLine truncate"><em>Picture Url:</em> <a target="_blank" href={skiff.pictureUrl}>{skiff.pictureUrl}</a></li>

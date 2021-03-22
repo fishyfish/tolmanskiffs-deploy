@@ -3,6 +3,7 @@ import { navigate}  from '@reach/router';
 import axios from "axios";
 
 const Header = () => {
+
     const logout = (e) => {
         e.preventDefault();
         axios.post("http://localhost:8000/api/user/logout", {
