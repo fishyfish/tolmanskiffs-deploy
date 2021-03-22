@@ -73,7 +73,7 @@ const EditSkiff = (props) => {
                     // before leaving this component we need to be sure to disconnect our socket
                     //      to prevent a resource leak
                     socket.disconnect();
-                    navigate(`/skiff/${res.data._id}`);   
+                    navigate(`/skiff/${res.data._id}/edit`);   
                 }
             })
                 
