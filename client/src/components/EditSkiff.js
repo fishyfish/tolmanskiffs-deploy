@@ -48,7 +48,7 @@ const EditSkiff = (props) => {
         }, []);
 
         const onSubmitHandler = (e) => {
-            //e.preventDefault();
+            e.preventDefault();
             axios.put('http://localhost:8000/api/skiff/'  + skiffId, {
                 ownerName:ownerName,    
                 builderName:builderName,      
@@ -73,7 +73,7 @@ const EditSkiff = (props) => {
                     // before leaving this component we need to be sure to disconnect our socket
                     //      to prevent a resource leak
                     socket.disconnect();
-                    navigate(`/skiff/${res.data._id}/edit`);   
+                   navigate(`/skiff/${res.data._id}/`);   
                 }
             })
                 
