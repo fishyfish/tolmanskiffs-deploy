@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin: "*",
 }));
 app.use(cookieParser());
 
@@ -29,7 +29,7 @@ const server = app.listen(process.env.DB_PORT, () => {console.log(`Listening on 
 
 const io = socket(server, {
     cors: {
-        origin: 'http://localhost:3000',
+        origin: '*',
         methods: ['GET', 'POST'],
         allowedHeaders: ['*'],
         credentials: true,
