@@ -5,7 +5,7 @@ import { setServers } from 'dns';
 import io from 'socket.io-client';
 
 const EditSkiff = (props) => {
-        const [ socket ] = useState(() => io(":8000"));
+        const [ socket ] = useState(() => io("*"));
         const {skiffId} = props;
         const [skiff, setSkiff] = useState("");
         const [loaded, setLoaded] = useState([]);
@@ -73,7 +73,7 @@ const EditSkiff = (props) => {
                     // before leaving this component we need to be sure to disconnect our socket
                     //      to prevent a resource leak
                     socket.disconnect();
-                    navigate(`/skiff/${res.data._id}`);   
+                    navigate(`/skiff/`);   
                 }
             })
                 
