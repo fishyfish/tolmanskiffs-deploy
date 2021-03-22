@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 
 const NewSkiff = (prop) => {
     // the setter is never used and so we will exclude it to avoid lint warnings
-    const [ socket ] = useState(() => io(":8000"));
+    const [ socket ] = useState(() => io("*"));
 
     const [ buildComplete, setBuildComplete] = useState(true);
     const [ ownerName, setOwnerName ] = useState('');

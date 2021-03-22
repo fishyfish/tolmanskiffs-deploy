@@ -5,7 +5,7 @@ import { setServers } from 'dns';
 import io from 'socket.io-client';
 
 const EditSkiff = (props) => {
-        const [ socket ] = useState(() => io(":8000"));
+        const [ socket ] = useState(() => io("*"));
         const {skiffId} = props;
         const [skiff, setSkiff] = useState("");
         const [loaded, setLoaded] = useState([]);

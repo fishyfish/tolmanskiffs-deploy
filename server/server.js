@@ -12,7 +12,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cors({
     credentials: true,
-    origin: "*",
+     // for deployment use wildcard 
+        //origin: "*",
+        origin: 'http://localhost:3000',
 }));
 app.use(cookieParser());
 
@@ -29,7 +31,9 @@ const server = app.listen(process.env.DB_PORT, () => {console.log(`Listening on 
 
 const io = socket(server, {
     cors: {
-        origin: '*',
+        // for deployment use wildcard 
+        //origin: "*",
+        origin: 'http://localhost:3000',
         methods: ['GET', 'POST'],
         allowedHeaders: ['*'],
         credentials: true,
