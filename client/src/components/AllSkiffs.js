@@ -4,7 +4,7 @@ import {link, navigate} from '@reach/router';
 import io from 'socket.io-client';
 
 const AllSkiffs = (prop) => {
-    const [ socket ] = useState(() => io("*"));
+    const [ socket ] = useState(() => io(":8000"));
     const [ socketMessage, setSocketMessage ] = useState("connecting to server");
     const [ socketId, setSocketId ] = useState();
 
