@@ -21,7 +21,7 @@ const EditSkiff = (props) => {
         const [pictureDescription, setPictureDescription] = useState("");
         const [description, setDescription] = useState("");
         const { removeFromDom } = props;
-       
+    
         // run once no matter what. useEffect
         useEffect(() => {
             axios.get("http://localhost:8000/api/skiff/" + skiffId) // works fine
